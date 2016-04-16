@@ -89,11 +89,7 @@ class LastFM(scrapy.Spider):
       for x in icare:
         url = x['url'].replace(remove_this,"",1)
         ts = x.get("date",{}).get("uts","")
-        track_id = x.get("mbid","")
-        album_id = x.get("album",{}).get("mbid","")
-        artist_id = x.get("artist",{}).get("mbid","")
-        yield {"url":url,"ts":ts,"trackid":track_id,"albumid":album_id,
-               "artistid":artist_id}
+        yield {"url":url,"ts":ts}
 
     return {'user':username,"page":page,'v': list(extract_info(icare))}
     # return json.loads(response.body)
