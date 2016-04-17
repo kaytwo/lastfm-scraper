@@ -86,7 +86,7 @@ class LastFM(scrapy.Spider):
     # return json.loads(response.body)
 
     def extract_info(item):
-      for x in icare:
+      for x in item:
         url = x['url'].replace(remove_this,"",1)
         ts = x.get("date",{}).get("uts","")
         yield {"url":url,"ts":ts}
