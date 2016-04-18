@@ -99,6 +99,8 @@ class LastFM(scrapy.Spider):
 
 settings = get_project_settings()
 settings.set('FEED_URI',"{}_{}_{}.json".format(filename,start,start+count),'cmdline')
+settings.set("CONCURRENT_REQUESTS",20,"cmdline")
+settings.set("CONCURRENT_REQUESTS_PER_DOMAIN",20,"cmdline")
 settings.set("LOG_LEVEL","INFO","cmdline")
 
 process = CrawlerProcess(settings)
