@@ -7,7 +7,6 @@ from __future__ import print_function
 from twisted.internet import reactor
 import json
 import configparser
-import requests
 import scrapy
 from scrapy.utils.project import get_project_settings
 from scrapy.utils.log import configure_logging
@@ -42,7 +41,6 @@ with open("data/users.txt") as f:
   usernames = [line.split(',')[1] for line in f]
 starters = [user_info.format(username=x,apikey=apikey,limit=1000,page=1) for x in usernames]
 
-# test_response = requests.get(starters[1]).text
 
 
 # In[5]:
