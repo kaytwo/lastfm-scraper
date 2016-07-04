@@ -18,8 +18,8 @@ from urlparse import urlparse, parse_qs
 from scrapy.crawler import CrawlerProcess
 
 cfg = configparser.ConfigParser()
-cfg.read('apikeys.config')
-apikey = cfg['lastfm']['apikey']
+cfg.read("apikeys.config")
+apikey = cfg["lastfm"]["apikey"]
 
 filename = sys.argv[1]
 start = int(sys.argv[2])
@@ -38,7 +38,7 @@ remove_this = "http://www.last.fm/music/"
 # In[4]:
 
 with open("data/users.txt") as f:
-  usernames = [line.split(',')[1] for line in f]
+  usernames = [line.split(",")[1] for line in f]
 starters = [user_info.format(username=x,apikey=apikey,limit=1000,page=1) for x in usernames]
 
 
@@ -58,8 +58,8 @@ def userinfo_to_tracklists(resp):
 
 
 class LastFM(scrapy.Spider):
-  name = 'lastfm'
-  # start_urls = [user_info.format(username='kaytwo',apikey=apikey),]
+  name = "lastfm"
+  # start_urls = [user_info.format(username="kaytwo",apikey=apikey),]
   start_urls =starters[start:start+count] 
   
 
@@ -74,7 +74,7 @@ class LastFM(scrapy.Spider):
     resp = json.loads(response.body)
     
     try:
-      username = resp["recenttracks"]['@attr']['user']
+      username = resp["recenttracks"]["@attr"]["user"]
       page = resp["recenttracks"]["@attr"]["page"]
       icare = resp["recenttracks"]["track"]
     except KeyError as e:
@@ -85,18 +85,18 @@ class LastFM(scrapy.Spider):
 
     def extract_info(item):
       for x in item:
-        url = x['url'].replace(remove_this,"",1)
+        url = x["url"].replace(remove_this,"",1)
         ts = x.get("date",{}).get("uts","")
         yield {"url":url,"ts":ts}
 
-    return {'user':username,"page":page,'v': list(extract_info(icare))}
+    return {"user":username,"page":page,"v": list(extract_info(icare))}
     # return json.loads(response.body)
 
 
 # In[ ]:
 
 settings = get_project_settings()
-settings.set('FEED_URI',"{}_{}_{}.json".format(filename,start,start+count),'cmdline')
+settings.set("FEED_URI","stdout:","cmdline")
 settings.set("CONCURRENT_REQUESTS",20,"cmdline")
 settings.set("CONCURRENT_REQUESTS_PER_DOMAIN",20,"cmdline")
 settings.set("LOG_LEVEL","INFO","cmdline")
