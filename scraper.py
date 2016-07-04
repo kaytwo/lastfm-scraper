@@ -49,7 +49,7 @@ def userinfo_to_tracklists(resp):
     userinfo = json.loads(resp)
     uname = userinfo["user"]["name"]
     pc = int(userinfo["user"]["playcount"])
-    num_pages = pc / 1000 + 1
+    num_pages = int(pc / 1000) + 1
     return (recent_tracks.format(username=uname,apikey=apikey,limit=1000,page=x) \
         for x in range(1,num_pages+1))
 
